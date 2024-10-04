@@ -31,7 +31,7 @@ namespace CodePulse.API.Controllers
             await categoryRepository.CreateAsync(category);
 
             // domain model to dto
-            var response = new CategoryDTO
+            var response = new CategoryDto
             {
                 Id = category.Id,
                 Name = category.Name,
@@ -48,10 +48,10 @@ namespace CodePulse.API.Controllers
             var categories = await categoryRepository.GetAllAsync();
 
             // map domain model to DTO
-            var response = new List<CategoryDTO>();
+            var response = new List<CategoryDto>();
             foreach (var category in categories)
             {
-                response.Add(new CategoryDTO
+                response.Add(new CategoryDto
                 {
                     Id = category.Id,
                     Name = category.Name,
@@ -74,7 +74,7 @@ namespace CodePulse.API.Controllers
                 return NotFound();
             }
 
-            var response = new CategoryDTO
+            var response = new CategoryDto
             {
                 Id = existingCategory.Id,
                 Name = existingCategory.Name,
@@ -105,7 +105,7 @@ namespace CodePulse.API.Controllers
             }
 
             // convert domain model to DTO
-            var response = new CategoryDTO
+            var response = new CategoryDto
             {
                 Id = category.Id,
                 Name = category.Name,
@@ -128,7 +128,7 @@ namespace CodePulse.API.Controllers
             }
 
             // convert domain model to DTO
-            var response = new CategoryDTO
+            var response = new CategoryDto
             {
                 Id = category.Id,
                 Name = category.Name,

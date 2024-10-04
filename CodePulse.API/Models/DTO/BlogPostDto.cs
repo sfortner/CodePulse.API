@@ -11,5 +11,8 @@
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public bool IsVisible { get; set; }
+        
+        // Sameer originally used public List<CategoryDto>...
+        public IList<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
     }
 }
