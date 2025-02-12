@@ -10,10 +10,12 @@ namespace CodePulse.API.Controllers
     public class ImagesController : ControllerBase
     {
         private readonly IImageRepository imageRepository;
+
         public ImagesController(IImageRepository imageRepository)
         {
             this.imageRepository = imageRepository;
         }
+
         // GET: {apibaseURL}/api/Images
         [HttpGet]
         public async Task<IActionResult> GetAllImages()
@@ -52,6 +54,7 @@ namespace CodePulse.API.Controllers
                     Title = title,
                     DateCreated = DateTime.Now
                 };
+
                 blogImage = await imageRepository.Upload(file, blogImage);
                 // Convert Domain Model to DTO
                 var response = new BlogImageDto
@@ -67,14 +70,16 @@ namespace CodePulse.API.Controllers
             }
             return BadRequest(ModelState);
         }
+
         private void ValidateFileUpload(IFormFile file)
         {
-            var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };   // ideally should be defined in appsettings.json, not hard-coded here
             if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
             {
+                // this is a built-in property from the base ControllerBase class
                 ModelState.AddModelError("file", "Unsupported file format");
             }
-            if (file.Length > 10485760)
+            if (file.Length > 10485760) // 10 MB
             {
                 ModelState.AddModelError("file", "File size cannot be more than 10MB");
             }
