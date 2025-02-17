@@ -1,6 +1,7 @@
 ﻿using CodePulse.API.Models.Domain;
 using CodePulse.API.Models.DTO;
 using CodePulse.API.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,7 @@ namespace CodePulse.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
         {
             // map DTO to domain model
@@ -85,8 +87,18 @@ namespace CodePulse.API.Controllers
         }
 
         // PUT: https://localhost:7219/api/categories/{id}
-        [HttpPut]
+        // with the authentiation and authorization in place, we'll need to go through several things to update now
+        // 1) request the login API with the Admin user (or one with the Writer role) and copy the JWT that's generated
+        // 2) In Postman, create a new request, change it to a PUT, using the /api/categories/<categoryID>
+        // 3) Go to the Authorization tab, change the Auth Type to Bearer Token and paste the JWT into the Token input
+        // 4) Go back to the Body tab, choose the Raw radio button, then use the JSON to make changes:
+        // {
+        //   "name": "HTML",
+        //   "urlHandle": "html-blogs"
+        // }
+    [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> EditCategory([FromRoute] Guid id, UpdateCategoryRequestDto request)
         {
             // convert DTO to domain model
@@ -118,6 +130,7 @@ namespace CodePulse.API.Controllers
         // DELETE: https://localhost:7219/api/categories/{id}
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
             var category = await categoryRepository.DeleteAsync(id);
