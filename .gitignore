@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /CodePulse.API/Images/AngularCoverArt.jpg.jpg
+/CodePulse.API/appsettings.Development.json
+/CodePulse.API/appsettings.json
